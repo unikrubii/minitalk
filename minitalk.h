@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/18 18:18:42 by sthitiku         ###   ########.fr       */
+/*   Created: 2022/05/17 13:08:06 by sthitiku          #+#    #+#             */
+/*   Updated: 2022/05/18 18:12:14 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#ifndef MINITALK_H
+# define MINITALK_H
 
-int count;
+#include <unistd.h>
+#include <sys/types.h>
+#include <signal.h>
+#include <stdio.h>
 
-int	main(void)
-{
-	
-}
+#endif
