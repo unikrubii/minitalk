@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/22 02:17:53 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:58:46 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ void	add_zero(pid_t c_pid)
 {
 	g_server.c += 0;
 	g_server.count++;
-	printf("%d\n", g_server.count);
-	g_server.c <<= 1;
-	kill(c_pid, SIGUSR1);
-	if (g_server.count == 8)
+	if (g_server.count < 8)
+	{
+		g_server.c <<= 1;
+		kill(c_pid, SIGUSR1);
+	}
+	else
 	{
 		write(1, &g_server.c, 1);
 		g_server.c = 0;
@@ -44,10 +46,12 @@ void	add_one(pid_t c_pid)
 {
 	g_server.c += 1;
 	g_server.count++;
-	printf("%d\n", g_server.count);
-	g_server.c <<= 1;
-	kill(c_pid, SIGUSR2);
-	if (g_server.count == 8)
+	if (g_server.count < 8)
+	{
+		g_server.c <<= 1;
+		kill(c_pid, SIGUSR1);
+	}
+	else
 	{
 		write(1, &g_server.c, 1);
 		g_server.c = 0;
@@ -71,7 +75,7 @@ void	s_handler(int signum, siginfo_t *sa, void *old)
 	{
 		add_one(g_server.c_pid);
 	}
-	usleep(200);
+	usleep(1000);
 }
 
 int	main(void)
@@ -90,6 +94,6 @@ int	main(void)
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 	{
-		usleep(100);
+		usleep(1000);
 	}
 }

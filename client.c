@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/22 02:18:03 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:08:11 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ void	sig_send(char *bit)
 			if (kill(g_client.pid, SIGUSR1) > 0)
 				write(1, "Error occurs on sending signal!\n", 32);
 			else
-				write(1, "0\n", 1);
+				write(1, "0", 1);
 		}
 		else if (bit[i] == '1')
 		{
 			if (kill(g_client.pid, SIGUSR2) > 0)
 				write(1, "Error occurs on sending signal!\n", 32);
 			else
-				write(1, "1\n", 1);
+				write(1, "1", 1);
 		}
 		i++;
-		usleep(200);
+		usleep(1000);
 	}
 }
 
@@ -89,7 +89,8 @@ void	conv_input(char *str)
 		sig_send(bit);
 		free(bit);
 		i++;
-		usleep(200);
+		usleep(1000);
+		write(1, "\n", 1);
 	}
 }
 
@@ -101,11 +102,11 @@ void c_handler(int signum, siginfo_t *sa, void *old)
 	(void)sa;
 	if (signum == SIGUSR1)
 	{
-		write(1, "SIGUSR1 Recieved!\n", 18);
+		// write(1, "SIGUSR1 Recieved!\n", 18);
 	}
 	else if (signum == SIGUSR2)
 	{
-		write(1, "SIGUSR2 Recieved!\n", 18);
+		// write(1, "SIGUSR2 Recieved!\n", 18);
 	}
 }
 
@@ -123,5 +124,4 @@ int	main(int ac, char **av)
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	conv_input(av[2]);
-	// kill(s_pid, SIGUSR1);
 }
