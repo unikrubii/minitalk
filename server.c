@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/23 16:58:46 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/23 19:56:30 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	s_handler(int signum, siginfo_t *sa, void *old)
 	{
 		add_one(g_server.c_pid);
 	}
-	usleep(1000);
 }
 
 int	main(void)
@@ -94,6 +93,6 @@ int	main(void)
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 	{
-		usleep(1000);
+		usleep(100);
 	}
 }
