@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/25 14:16:51 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/25 14:25:22 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ char	*itoa_bit(int n)
 	ret[i] = '\0';
 	return (ret);
 }
-
-// unsigned char	*itoa_bit(int n)
-// {
-// 	unsigned char	arr[8];
-// 	unsigned char	*ret;
-// 	int		i;
-
-// 	i = 7;
-// 	// printf("%d\n", n);
-// 	// printf("%d\n", i);
-// 	// arr[i--] = '\0';
-// 	printf("%d\n", i);
-// 	while (i >= 0)
-// 	{
-// 		printf("%d, n = %d, %c\n", i, n, n % 2 + '0');
-// 		arr[i] = n % 2 + '0';
-// 		i--;
-// 		n >>= 1;
-// 	}
-// 	ret = arr;
-// 	return (ret);
-// }
 
 int	mt_atoi(char *pid)
 {
@@ -102,7 +80,7 @@ void	sig_send(char *bit)
 void	conv_input(char *str)
 {
 	int		i;
-	unsigned char	*bit;
+	char	*bit;
 
 	i = 0;
 	while (str[i])
