@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/23 17:08:11 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/25 14:16:51 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_client	g_client;
 char	*itoa_bit(int n)
 {
 	char	*ret;
-	int		i;
-	int		base;
+	int				i;
+	int				base;
 
 	if (n < 0)
 		n += 256;
@@ -35,6 +35,28 @@ char	*itoa_bit(int n)
 	ret[i] = '\0';
 	return (ret);
 }
+
+// unsigned char	*itoa_bit(int n)
+// {
+// 	unsigned char	arr[8];
+// 	unsigned char	*ret;
+// 	int		i;
+
+// 	i = 7;
+// 	// printf("%d\n", n);
+// 	// printf("%d\n", i);
+// 	// arr[i--] = '\0';
+// 	printf("%d\n", i);
+// 	while (i >= 0)
+// 	{
+// 		printf("%d, n = %d, %c\n", i, n, n % 2 + '0');
+// 		arr[i] = n % 2 + '0';
+// 		i--;
+// 		n >>= 1;
+// 	}
+// 	ret = arr;
+// 	return (ret);
+// }
 
 int	mt_atoi(char *pid)
 {
@@ -62,25 +84,25 @@ void	sig_send(char *bit)
 		{
 			if (kill(g_client.pid, SIGUSR1) > 0)
 				write(1, "Error occurs on sending signal!\n", 32);
-			else
-				write(1, "0", 1);
+			// else
+				// write(1, "0", 1);
 		}
 		else if (bit[i] == '1')
 		{
 			if (kill(g_client.pid, SIGUSR2) > 0)
 				write(1, "Error occurs on sending signal!\n", 32);
-			else
-				write(1, "1", 1);
+			// else
+				// write(1, "1", 1);
 		}
 		i++;
-		usleep(1000);
+		usleep(300);
 	}
 }
 
 void	conv_input(char *str)
 {
 	int		i;
-	char	*bit;
+	unsigned char	*bit;
 
 	i = 0;
 	while (str[i])
@@ -89,8 +111,8 @@ void	conv_input(char *str)
 		sig_send(bit);
 		free(bit);
 		i++;
-		usleep(1000);
-		write(1, "\n", 1);
+		usleep(200);
+		// write(1, "\n", 1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/23 19:56:30 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/25 14:15:48 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ int	main(void)
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 	{
-		usleep(100);
+		usleep(10);
 	}
 }
