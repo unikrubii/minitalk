@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/25 14:25:22 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/25 14:34:57 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	sig_send(char *bit)
 				// write(1, "1", 1);
 		}
 		i++;
-		usleep(300);
+		usleep(100);
 	}
 }
 
@@ -89,7 +89,7 @@ void	conv_input(char *str)
 		sig_send(bit);
 		free(bit);
 		i++;
-		usleep(200);
+		usleep(100);
 		// write(1, "\n", 1);
 	}
 }
