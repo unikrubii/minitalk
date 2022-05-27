@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/25 14:34:57 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:05:59 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,22 @@ void	sig_send(char *bit)
 	}
 }
 
-void	conv_input(char *str)
-{
-	int		i;
-	char	*bit;
+// void	conv_input(char *str)
+// {
+// 	int		i;
+// 	char	*bit;
 
-	i = 0;
-	while (str[i])
-	{
-		bit = itoa_bit(str[i]);
-		sig_send(bit);
-		free(bit);
-		i++;
-		usleep(100);
-		// write(1, "\n", 1);
-	}
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		bit = itoa_bit(str[i]);
+// 		sig_send(bit);
+// 		free(bit);
+// 		i++;
+// 		usleep(100);
+// 		// write(1, "\n", 1);
+// 	}
+// }
 
 void c_handler(int signum, siginfo_t *sa, void *old)
 {
@@ -112,8 +112,9 @@ void c_handler(int signum, siginfo_t *sa, void *old)
 
 int	main(int ac, char **av)
 {
-	pid_t	s_pid;
+	pid_t				s_pid;
 	struct sigaction	sa;
+	char				*bit;
 	
 	if (ac != 3)
 		exit(-1);
@@ -123,5 +124,14 @@ int	main(int ac, char **av)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	conv_input(av[2]);
+	// conv_input(av[2]);
+	while (*av[2])
+	{
+		bit = itoa_bit(*av[2]);
+		sig_send(bit);
+		free(bit);
+		av[2]++;
+		usleep(100);
+		// write(1, "\n", 1);
+	}
 }
