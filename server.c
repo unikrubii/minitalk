@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/27 13:03:43 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:19:48 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ void	add_zero(pid_t c_pid)
 	g_server.c += 0;
 	g_server.count++;
 	if (g_server.count < 8)
-	{
 		g_server.c <<= 1;
-		kill(c_pid, SIGUSR1);
-	}
 	else
 	{
-		write(1, &g_server.c, 1);
-		g_server.c = 0;
-		g_server.count = 0;
-		kill(c_pid, SIGUSR2);
+		if (g_server.c == 0)
+			kill(c_pid, SIGUSR2);
+		else
+		{
+			write(1, &g_server.c, 1);
+			g_server.c = 0;
+			g_server.count = 0;
+			kill(c_pid, SIGUSR1);
+		}
 	}
 }
 
@@ -47,16 +49,18 @@ void	add_one(pid_t c_pid)
 	g_server.c += 1;
 	g_server.count++;
 	if (g_server.count < 8)
-	{
 		g_server.c <<= 1;
-		kill(c_pid, SIGUSR1);
-	}
 	else
 	{
-		write(1, &g_server.c, 1);
-		g_server.c = 0;
-		g_server.count = 0;
-		kill(c_pid, SIGUSR2);
+		if (g_server.c == '\0')
+			kill(c_pid, SIGUSR2);
+		else
+		{
+			write(1, &g_server.c, 1);
+			g_server.c = 0;
+			g_server.count = 0;
+			kill(c_pid, SIGUSR1);
+		}
 	}
 }
 

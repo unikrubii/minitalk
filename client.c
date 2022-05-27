@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/27 13:05:59 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:45:18 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,6 @@ char	*itoa_bit(int n)
 	return (ret);
 }
 
-int	mt_atoi(char *pid)
-{
-	int	i;
-	int	num;
-
-	i = 0;
-	num = 0;
-	while (pid[i] >= '0' && pid[i] <= '9')
-	{
-		num = (num * 10) + (pid[i] - '0');
-		i++;
-	}
-	return (num);
-}
-
 void	sig_send(char *bit)
 {
 	int	i;
@@ -77,23 +62,6 @@ void	sig_send(char *bit)
 	}
 }
 
-// void	conv_input(char *str)
-// {
-// 	int		i;
-// 	char	*bit;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		bit = itoa_bit(str[i]);
-// 		sig_send(bit);
-// 		free(bit);
-// 		i++;
-// 		usleep(100);
-// 		// write(1, "\n", 1);
-// 	}
-// }
-
 void c_handler(int signum, siginfo_t *sa, void *old)
 {
 	static int	pid = 0;
@@ -102,29 +70,42 @@ void c_handler(int signum, siginfo_t *sa, void *old)
 	(void)sa;
 	if (signum == SIGUSR1)
 	{
-		// write(1, "SIGUSR1 Recieved!\n", 18);
+		// write(1, "Letter received!\n", 17);
 	}
 	else if (signum == SIGUSR2)
+		write(1, "Sending finished!\n", 18);
+}
+
+void	init_client(char *pid, struct sigaction *sa)
+{
+	int	i;
+	int	num;
+
+	sa->sa_sigaction = c_handler;
+	sa->sa_flags = SA_SIGINFO;
+	sigemptyset(&sa->sa_mask);
+	i = 0;
+	num = 0;
+	while (pid[i] >= '0' && pid[i] <= '9')
 	{
-		// write(1, "SIGUSR2 Recieved!\n", 18);
+		num = (num * 10) + (pid[i] - '0');
+		i++;
 	}
+	g_client.pid = num;
 }
 
 int	main(int ac, char **av)
 {
 	pid_t				s_pid;
 	struct sigaction	sa;
+	int					i;
 	char				*bit;
 	
 	if (ac != 3)
 		exit(-1);
-	g_client.pid = mt_atoi(av[1]);
-	sa.sa_sigaction = c_handler;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
+	init_client(av[1], &sa);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	// conv_input(av[2]);
 	while (*av[2])
 	{
 		bit = itoa_bit(*av[2]);
@@ -132,6 +113,11 @@ int	main(int ac, char **av)
 		free(bit);
 		av[2]++;
 		usleep(100);
-		// write(1, "\n", 1);
+	}
+	i = 0;
+	while (i++ < 8)
+	{
+		kill(g_client.pid, SIGUSR1);
+		usleep(10);
 	}
 }
