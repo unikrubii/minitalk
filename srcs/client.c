@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:35 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/27 15:02:57 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:01:25 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	c_handler(int signum, siginfo_t *sa, void *old)
 {
 	(void)old;
 	(void)sa;
-	if (signum == SIGUSR2)
-		write(1, "Sending finished!\n", 18);
+	(void)signum;
+	write(1, "Done!\n", 6);
 }
 
 void	init_client(char *pid, struct sigaction *sa)
@@ -93,7 +93,7 @@ int	main(int ac, char **av)
 	if (ac != 3)
 		exit(-1);
 	init_client(av[1], &sa);
-	sigaction(SIGUSR2, &sa, NULL);
+	sigaction(SIGUSR1, &sa, NULL);
 	while (*av[2])
 	{
 		bit = itoa_bit(*av[2]);

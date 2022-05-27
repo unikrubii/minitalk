@@ -6,7 +6,7 @@
 /*   By: sthitiku <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 17:22:33 by sthitiku          #+#    #+#             */
-/*   Updated: 2022/05/27 14:45:33 by sthitiku         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:02:30 by sthitiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	add_zero(pid_t c_pid)
 		g_server.c <<= 1;
 	else
 	{
-		if (g_server.c == 0)
-			kill(c_pid, SIGUSR2);
+		if (g_server.c == '\0')
+			kill(c_pid, SIGUSR1);
 		else
 			write(1, &g_server.c, 1);
 		g_server.c = 0;
@@ -41,7 +41,7 @@ void	add_zero(pid_t c_pid)
 	}
 }
 
-void	add_one(pid_t c_pid)
+void	add_one(void)
 {
 	g_server.c += 1;
 	g_server.count++;
@@ -49,10 +49,7 @@ void	add_one(pid_t c_pid)
 		g_server.c <<= 1;
 	else
 	{
-		if (g_server.c == '\0')
-			kill(c_pid, SIGUSR2);
-		else
-			write(1, &g_server.c, 1);
+		write(1, &g_server.c, 1);
 		g_server.c = 0;
 		g_server.count = 0;
 	}
@@ -61,17 +58,14 @@ void	add_one(pid_t c_pid)
 void	s_handler(int signum, siginfo_t *sa, void *old)
 {
 	(void)old;
-	if (!g_server.c_pid)
-	{
-		g_server.c_pid = sa->si_pid;
-	}
+	g_server.c_pid = sa->si_pid;
 	if (signum == SIGUSR1)
 	{
 		add_zero(g_server.c_pid);
 	}
 	else if (signum == SIGUSR2)
 	{
-		add_one(g_server.c_pid);
+		add_one();
 	}
 }
 
